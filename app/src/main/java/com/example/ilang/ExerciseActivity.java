@@ -13,6 +13,7 @@ public class ExerciseActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.exercise_layout);
         if (savedInstanceState == null) {
             ArrayList<Button> answers = new ArrayList<Button>(){
                 {
@@ -47,7 +48,6 @@ public class ExerciseActivity extends AppCompatActivity {
 
             // TODO - check if correct button is triggered + change colors + save score
         }
-        setContentView(R.layout.exercise_layout);
     }
 
 }
