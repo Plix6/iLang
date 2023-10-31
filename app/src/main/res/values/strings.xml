@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">iLang</string>
+    <string name="placeholder_text">This is just some placeholder text that will be replaced...</string>
+    <string name="question_prompt">Find the equivalent to this word : </string>
 </resources>
