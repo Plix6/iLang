@@ -1,0 +1,7 @@
+<resources>
+    <style name="AppTheme" parent="Base.Theme.ILang">
+        <item name="colorPrimary">@color/primary</item> <!-- Red color as the primary color -->
+        <item name="colorPrimaryDark">@color/primary</item> <!-- Darker shade of red -->
+        <item name="colorAccent">@color/secondary</item> <!-- Accent color -->
+    </style>
+</resources>

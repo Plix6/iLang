@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Text font sizes -->
+    <dimen name="exercise_user_data_font_size">16dp</dimen>
+    <dimen name="exercise_question_prompt_font_size">25dp</dimen>
+    <dimen name="answer_font_size">20dp</dimen>
+
+</resources>
