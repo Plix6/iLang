@@ -1,6 +1,8 @@
 package com.example.ilang;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,6 +49,15 @@ public class ExerciseActivity extends AppCompatActivity {
 
 
             // TODO - check if correct button is triggered + change colors + save score
+            // TODO - display user info
+            // TODO - back button
+
+            Button buttonToNewActivity = findViewById(R.id.backButton);
+            buttonToNewActivity.setOnClickListener(v -> {
+                Intent intent = new Intent(ExerciseActivity.this, MainActivity.class);
+                startActivity(intent);
+            });
+
         }
     }
 
