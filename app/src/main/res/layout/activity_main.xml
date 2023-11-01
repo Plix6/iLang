@@ -16,20 +16,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/languageRecyclerView"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Select language"
         android:layout_margin="10dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/recycleViewContainer"/>
+
+
+    <LinearLayout
+        android:id="@+id/recycleViewContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/languageRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/toggleDropdownButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="toggle dropdown"
-        app:layout_constraintTop_toBottomOf="@id/languageRecyclerView"
+        app:layout_constraintTop_toBottomOf="@id/recycleViewContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
