@@ -43,7 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
         Button exerciseButton = findViewById(R.id.exerciseButton);
         exerciseButton.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("targetLanguageCode", languageCode);
             Intent intent = new Intent(MainActivity.this, ExerciseActivity.class);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
     }
