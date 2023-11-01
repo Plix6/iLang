@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Language> itemList = generateItems();
 
-        RecyclerView languageRecyclerView = findViewById(R.id.languageRecyclerView);
+        languageRecyclerView = findViewById(R.id.languageRecyclerView);
         currentTextView = findViewById(R.id.selectedItemRecyclerView);
         adapter = new LanguageRecyclerViewAdapter(itemList, new LanguageRecyclerViewAdapter.OnItemClickListener() {
             @Override
@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         languageRecyclerView.setAdapter(adapter);
 
-        Button toggleButton = findViewById(R.id.toggleDropdownButton);
-        toggleButton.setOnClickListener(v -> toggleDropdown());
+        Button toggleDropdownButton = findViewById(R.id.toggleDropdownButton);
+        toggleDropdownButton.setOnClickListener(v -> toggleDropdown());
 
 
         Button exerciseButton = findViewById(R.id.exerciseButton);
