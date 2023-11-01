@@ -3,7 +3,6 @@ package com.example.ilang.fragments;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView.OnItemClickListener;
 
 import androidx.recyclerview.widget.RecyclerView;
 

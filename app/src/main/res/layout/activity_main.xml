@@ -19,27 +19,21 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select language"
+        android:text="Select a language by scrolling and clicking"
         android:layout_margin="10dp"
+        android:padding="5dp"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@id/recycleViewContainer"/>
+        android:background="@drawable/round_corner_secondary"
+        app:layout_constraintBottom_toTopOf="@id/languageRecyclerView"/>
 
 
-    <LinearLayout
-        android:id="@+id/recycleViewContainer"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/languageRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/languageRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-    </LinearLayout>
 
     <Button
         android:id="@+id/exerciseButton"

@@ -2,14 +2,12 @@ package com.example.ilang;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class ExerciseActivity extends AppCompatActivity {
     @Override
@@ -42,6 +40,7 @@ public class ExerciseActivity extends AppCompatActivity {
             ArrayList<String> translatedWords = new ArrayList<>();
             for (String word: words) {
                 // TODO - call translation API to translate guesses
+                // TODO - get language code from bundle
                 translatedWords.add(word);
                 int curIndex = words.indexOf(word);
                 answers.get(curIndex).setText(translatedWords.get(curIndex));
@@ -50,7 +49,6 @@ public class ExerciseActivity extends AppCompatActivity {
 
             // TODO - check if correct button is triggered + change colors + save score
             // TODO - display user info
-            // TODO - back button
 
             Button buttonToNewActivity = findViewById(R.id.backButton);
             buttonToNewActivity.setOnClickListener(v -> {

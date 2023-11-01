@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -19,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView languageRecyclerView;
     private LanguageRecyclerViewAdapter adapter;
     private TextView currentTextView;
+    private String languageCode;
+    // TODO - give language code to exercise activity in bundle
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
         languageRecyclerView = findViewById(R.id.languageRecyclerView);
         currentTextView = findViewById(R.id.selectedItemRecyclerView);
-        adapter = new LanguageRecyclerViewAdapter(itemList, new LanguageRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Language language) {
-                currentTextView.setText(language.getTitle());
-            }
+        adapter = new LanguageRecyclerViewAdapter(itemList, language -> {
+            currentTextView.setText(language.getTitle());
+            languageCode = language.getCode();
         });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -51,9 +50,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Language> generateItems() {
         ArrayList<Language> itemList = new ArrayList<Language>(){{
-            add(new Language("English", "EN-gb"));
-            add(new Language("French", "FR-fr"));
-            add(new Language("Italian", "IT-it"));
+            add(new Language("English", "en"));
+            add(new Language("French", "fr"));
+            add(new Language("Italian", "it"));
         }};
         // TODO - get from FireBase
 
