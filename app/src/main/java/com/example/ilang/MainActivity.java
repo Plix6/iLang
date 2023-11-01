@@ -72,5 +72,7 @@ public class MainActivity extends AppCompatActivity {
             languageRecyclerView.setVisibility(View.VISIBLE);
         }
         isDropdownOpen = !isDropdownOpen;
+
+        languageRecyclerView.requestLayout();
     }
 }
