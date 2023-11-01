@@ -3,6 +3,7 @@ package com.example.ilang.fragments;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView.OnItemClickListener;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public class LanguageRecyclerViewAdapter extends RecyclerView.Adapter<LanguageViewHolder> {
     private ArrayList<Language> itemList;
 
-    public LanguageRecyclerViewAdapter(ArrayList<Language> itemList) {
+    public LanguageRecyclerViewAdapter(ArrayList<Language> itemList, OnItemClickListener listener) {
         this.itemList = itemList;
     }
 
@@ -33,5 +34,9 @@ public class LanguageRecyclerViewAdapter extends RecyclerView.Adapter<LanguageVi
     @Override
     public int getItemCount() {
         return itemList.size();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Language language);
     }
 }
