@@ -14,9 +14,11 @@ import java.util.ArrayList;
 
 public class LanguageRecyclerViewAdapter extends RecyclerView.Adapter<LanguageViewHolder> {
     private ArrayList<Language> itemList;
+    private OnItemClickListener listener;
 
     public LanguageRecyclerViewAdapter(ArrayList<Language> itemList, OnItemClickListener listener) {
         this.itemList = itemList;
+        this.listener = listener;
     }
 
     @Override
@@ -28,7 +30,10 @@ public class LanguageRecyclerViewAdapter extends RecyclerView.Adapter<LanguageVi
     @Override
     public void onBindViewHolder(LanguageViewHolder holder, int position) {
         Language item = itemList.get(position);
-        holder.titleTextView.setText(item.getTitle());
+        holder.titleButton.setText(item.getTitle());
+        holder.titleButton.setOnClickListener(view -> {
+            onItemClicked(position);
+        });
     }
 
     @Override
@@ -38,5 +43,11 @@ public class LanguageRecyclerViewAdapter extends RecyclerView.Adapter<LanguageVi
 
     public interface OnItemClickListener {
         void onItemClick(Language language);
+    }
+
+    private void onItemClicked(int position) {
+        if (listener != null) {
+            listener.onItemClick(itemList.get(position));
+        }
     }
 }

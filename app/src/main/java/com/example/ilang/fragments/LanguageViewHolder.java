@@ -1,6 +1,7 @@
 package com.example.ilang.fragments;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ilang.R;
 
 public class LanguageViewHolder extends RecyclerView.ViewHolder {
-    public TextView titleTextView;
+    public Button titleButton;
 
     public LanguageViewHolder(View itemView) {
         super(itemView);
-        titleTextView = itemView.findViewById(R.id.languageTitle);
+        titleButton = itemView.findViewById(R.id.languageTitle);
     }
 }

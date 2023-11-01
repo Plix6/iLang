@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+    <Button
         android:id="@+id/languageTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
         app:layout_constraintTop_toTopOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
