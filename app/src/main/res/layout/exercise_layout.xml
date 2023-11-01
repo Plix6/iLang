@@ -48,8 +48,7 @@
         android:layout_margin="10dp"
         android:gravity="center"
         android:textSize="@dimen/exercise_question_prompt_font_size"
-        app:layout_constraintTop_toBottomOf="@id/questionPrompt"
-        android:text="test"/>
+        app:layout_constraintTop_toBottomOf="@id/questionPrompt"/>
 
     <Button
         android:id="@+id/answerOne"
