@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView languageRecyclerView;
     private LanguageRecyclerViewAdapter adapter;
     private TextView currentTextView;
-    private boolean isDropdownOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Language language) {
                 currentTextView.setText(language.getTitle());
-                toggleDropdown();
             }
         });
 
@@ -42,9 +40,6 @@ public class MainActivity extends AppCompatActivity {
         languageRecyclerView.setLayoutManager(layoutManager);
 
         languageRecyclerView.setAdapter(adapter);
-
-        Button toggleDropdownButton = findViewById(R.id.toggleDropdownButton);
-        toggleDropdownButton.setOnClickListener(v -> toggleDropdown());
 
 
         Button exerciseButton = findViewById(R.id.exerciseButton);
@@ -63,16 +58,5 @@ public class MainActivity extends AppCompatActivity {
         // TODO - get from FireBase
 
         return itemList;
-    }
-
-    private void toggleDropdown() {
-        if (isDropdownOpen) {
-            languageRecyclerView.setVisibility(View.GONE);
-        } else {
-            languageRecyclerView.setVisibility(View.VISIBLE);
-        }
-        isDropdownOpen = !isDropdownOpen;
-
-        languageRecyclerView.requestLayout();
     }
 }
