@@ -95,8 +95,7 @@ public class ExerciseActivity extends AppCompatActivity {
 
             Button backButton = findViewById(R.id.backButton);
             backButton.setOnClickListener(v -> {
-                Intent intent = new Intent(ExerciseActivity.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             });
 
         }
