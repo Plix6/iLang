@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1073684343564",
+    "project_id": "ilang-a2baa",
+    "storage_bucket": "ilang-a2baa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073684343564:android:3dd1b5087b7fa2bc46f729",
+        "android_client_info": {
+          "package_name": "com.example.ilang"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMFYvgchtWg2ml-XwTEq6TTt7mvjd7m1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,28 +2,50 @@ package com.example.ilang;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ilang.api.TranslationClient;
 import com.example.ilang.utils.NetworkUtils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ExerciseActivity extends AppCompatActivity {
+    TextView questionWord;
+    TextView userData;
+    ArrayList<Button> answers;
     private String languageCode;
+    ArrayList<String> words;
+    String correctWord;
+    int score;
+    FirebaseAuth mAuth;
+    FirebaseFirestore db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.exercise_layout);
+
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
         if (savedInstanceState == null) {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
@@ -31,7 +53,7 @@ public class ExerciseActivity extends AppCompatActivity {
             } else {
                 this.languageCode = "fr";
             }
-            ArrayList<Button> answers = new ArrayList<Button>(){
+            answers = new ArrayList<Button>(){
                 {
                     add((Button) findViewById(R.id.answerOne));
                     add((Button) findViewById(R.id.answerTwo));
@@ -40,64 +62,34 @@ public class ExerciseActivity extends AppCompatActivity {
                 }
             };
 
-            // TODO - call database API to get data
+            questionWord = findViewById(R.id.questionWord);
+            userData = findViewById(R.id.userData);
 
-            ArrayList<String> words = new ArrayList<String>(){
-                {
-                    add("gift");
-                    add("high");
-                    add("incorrect");
-                    add("no");
-                }
-            };
-            String correctWord = "gift";
-            Collections.shuffle(words);
-
-            TextView questionWord = findViewById(R.id.questionWord);
-            questionWord.setText(correctWord);
-
-            TranslationClient translationClient = new TranslationClient();
-
-            if (NetworkUtils.isNetworkAvailable(this)) {
-                translationClient.translateText("en", this.languageCode, words, new TranslationClient.Callback() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            // TODO - check once daily limit has expired
-                            JSONArray jsonArray = new JSONArray(response);
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                String word = jsonArray.getString(i);
-                                answers.get(i).setText(word);
-                            }
-                        } catch (org.json.JSONException e) {
-                            for(Button answer: answers) {
-                                answer.setText("error");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(String errorMessage) {
-                        for(Button answer: answers) {
-                            answer.setText("error");
-                        }
-                    }
-                });
-            } else {
-                displayToast("No Internet connection available...");
-            }
-
-
-
-
-            // TODO - check if correct button is triggered + change colors + save score
-            // TODO - display user info
+            getUserScore();
 
             Button backButton = findViewById(R.id.backButton);
             backButton.setOnClickListener(v -> {
                 finish();
             });
 
+            View.OnClickListener listener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int id = v.getId();
+
+                    for (Button button: answers) {
+                        if (button.getId() == id && answers.indexOf(button) == words.indexOf(correctWord)) {
+                            displayToast("This is the right answer !");
+                            score++;
+                            Map<String, Object> newScoreData = new HashMap<>();
+                            newScoreData.put(languageCode, score);
+                            db.collection("Users").document(mAuth.getCurrentUser().getUid())
+                                    .update(newScoreData);
+                            getUserScore();
+                        }
+                    }
+                }
+            };
         }
     }
 
@@ -106,4 +98,102 @@ public class ExerciseActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    private void getUserScore() {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        db.collection("Users").document(user.getUid())
+                .get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Map<String, Object> dbUserData = document.getData();
+                            try {
+                                score = Long.valueOf ((long) dbUserData.get(languageCode)).intValue() + 1;
+                                userData.setText("Current score : " + (score - 1));
+                                getWords();
+                            } catch (NullPointerException e) {
+                                displayToast("User data could not be loaded, please retry later");
+                                finish();
+                            }
+                        } else {
+                            displayToast("User data not found, please restart the app");
+                            finish();
+                        }
+                    } else {
+                        displayToast("Online database could not be accessed, please retry later");
+                        finish();
+                    }
+                });
+    }
+
+    private void getWords() {
+        db.collection("Exercises").document(String.valueOf(score))
+                .get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Map<String, Object> dbExerciseData = document.getData();
+                            try {
+                                words.clear();
+                                words.add((String) dbExerciseData.get("guess_1")); // TODO - solve exception encountered
+                                words.add((String) dbExerciseData.get("guess_2"));
+                                words.add((String) dbExerciseData.get("guess_3"));
+                                words.add((String) dbExerciseData.get("guess_4"));
+//                                for (int i = 1; i <= 4; i++) {
+//                                    String temp = "guess_" + i;
+//                                    words.add((String) dbExerciseData.get(temp));
+//                                }
+                                correctWord = (String) dbExerciseData.get("correct");
+                                translateWords();
+                            } catch (NullPointerException e) {
+                                displayToast("Exercise data could not be loaded, please retry later");
+                                finish();
+                            }
+                        } else {
+                            displayToast("Exercise data not found, please restart the app");
+                            finish();
+                        }
+                    } else {
+                        displayToast("Online database could not be accessed, please retry later");
+                        finish();
+                    }
+                });
+    }
+
+    private void translateWords() {
+        Collections.shuffle(words);
+
+        questionWord.setText(correctWord);
+
+        TranslationClient translationClient = new TranslationClient();
+
+        if (NetworkUtils.isNetworkAvailable(this)) {
+            translationClient.translateText("en", this.languageCode, words, new TranslationClient.Callback() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONArray jsonArray = new JSONArray(response);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            String word = jsonArray.getString(i);
+                            answers.get(i).setText(word);
+                        }
+                    } catch (org.json.JSONException e) {
+                        displayToast("Could not read received database data");
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onFailure(String errorMessage) {
+                    for(Button answer: answers) {
+                        displayToast("The app did not receive the database data");
+                        finish();
+                    }
+                }
+            });
+        } else {
+            displayToast("No Internet connection available...");
+            finish();
+        }
+    }
 }

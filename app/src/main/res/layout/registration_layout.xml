@@ -15,7 +15,7 @@
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/Registrationform"
+        android:id="@+id/registrationForm"
         android:layout_width="409dp"
         android:layout_height="621dp"
         android:layout_marginStart="8dp"
@@ -27,65 +27,73 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/Ilang2"
+            android:id="@+id/IlangTextRegistration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="168dp"
             android:layout_marginTop="49dp"
-            android:layout_marginEnd="183dp"
             android:text="Welcome to Ilang"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/choose_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="99dp"
-            android:layout_marginEnd="100dp"
-            android:ems="10"
-            android:hint="Choose your password"
-            android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="234dp" />
-
-        <EditText
-            android:id="@+id/confirm_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="99dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="100dp"
-            android:ems="10"
-            android:hint="Confirm your password"
-            android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/choose_password" />
-
-        <EditText
-            android:id="@+id/choose_login"
+            android:id="@+id/loginChoice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Choose your login"
             android:inputType="text"
-            tools:layout_editor_absoluteX="100dp"
-            tools:layout_editor_absoluteY="182dp" />
+            android:layout_marginTop="120dp"
+            app:layout_constraintTop_toBottomOf="@id/IlangTextRegistration"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <Button
-            android:id="@+id/button"
+        <EditText
+            android:id="@+id/passwordChoice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="99dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="100dp"
-            android:text="Button"
+            android:ems="10"
+            android:hint="Choose your password"
+            android:inputType="textPassword"
+            app:layout_constraintTop_toBottomOf="@id/loginChoice"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/passwordConfirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Confirm your password"
+            android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/confirm_password" />
+            app:layout_constraintTop_toBottomOf="@+id/passwordChoice" />
+
+
+        <Button
+            android:id="@+id/confirmButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Confirm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passwordConfirmation" />
+
+        <TextView
+            android:id="@+id/registerRedirectText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:padding="8dp"
+            android:text="Already have an account ?"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
