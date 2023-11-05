@@ -67,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getUserScore();
+    }
+
     private ArrayList<Language> generateItems() {
         ArrayList<Language> itemList = new ArrayList<Language>(){{
             add(new Language("English", "en"));

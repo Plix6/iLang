@@ -16,14 +16,18 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.AggregateQuerySnapshot;
+import com.google.firebase.firestore.AggregateSource;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -62,6 +66,23 @@ public class ExerciseActivity extends AppCompatActivity {
                 }
             };
 
+            for(Button button: answers) {
+                button.setOnClickListener(v -> {
+                    if (answers.indexOf(button) == words.indexOf(correctWord)) {
+                        displayToast("This is the right answer !");
+                        score++;
+                        Map<String, Object> newScoreData = new HashMap<>();
+                        newScoreData.put(languageCode, score);
+                        db.collection("Users").document(mAuth.getCurrentUser().getUid())
+                                .update(newScoreData);
+                        getUserScore();
+                    } else {
+                        displayToast("Wrong answer !");
+                        finish();
+                    }
+                });
+            }
+
             questionWord = findViewById(R.id.questionWord);
             userData = findViewById(R.id.userData);
 
@@ -72,7 +93,7 @@ public class ExerciseActivity extends AppCompatActivity {
                 finish();
             });
 
-            View.OnClickListener listener = new View.OnClickListener() {
+            /*View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int id = v.getId();
@@ -86,12 +107,19 @@ public class ExerciseActivity extends AppCompatActivity {
                             db.collection("Users").document(mAuth.getCurrentUser().getUid())
                                     .update(newScoreData);
                             getUserScore();
+                            return;
+                        }
+                        if (button.getId() == id && answers.indexOf(button) != words.indexOf(correctWord)) {
+                            displayToast("Wrong answer !");
+                            finish();
                         }
                     }
                 }
-            };
+            };*/
         }
     }
+
+
 
     private void displayToast(String message) {
         // Create a Toast with the message and duration (LENGTH_SHORT or LENGTH_LONG)
@@ -108,8 +136,8 @@ public class ExerciseActivity extends AppCompatActivity {
                         if (document.exists()) {
                             Map<String, Object> dbUserData = document.getData();
                             try {
-                                score = Long.valueOf ((long) dbUserData.get(languageCode)).intValue() + 1;
-                                userData.setText("Current score : " + (score - 1));
+                                score = Long.valueOf ((long) dbUserData.get(languageCode)).intValue();
+                                userData.setText("Current score : " + score);
                                 getWords();
                             } catch (NullPointerException e) {
                                 displayToast("User data could not be loaded, please retry later");
@@ -127,22 +155,18 @@ public class ExerciseActivity extends AppCompatActivity {
     }
 
     private void getWords() {
-        db.collection("Exercises").document(String.valueOf(score))
+        db.collection("Exercises").document(String.valueOf(score + 1))
                 .get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             Map<String, Object> dbExerciseData = document.getData();
                             try {
-                                words.clear();
-                                words.add((String) dbExerciseData.get("guess_1")); // TODO - solve exception encountered
-                                words.add((String) dbExerciseData.get("guess_2"));
-                                words.add((String) dbExerciseData.get("guess_3"));
-                                words.add((String) dbExerciseData.get("guess_4"));
-//                                for (int i = 1; i <= 4; i++) {
-//                                    String temp = "guess_" + i;
-//                                    words.add((String) dbExerciseData.get(temp));
-//                                }
+                                words = new ArrayList<>();
+                                for (int i = 1; i <= 4; i++) {
+                                    String temp = "guess_" + i;
+                                    words.add((String) dbExerciseData.get(temp));
+                                }
                                 correctWord = (String) dbExerciseData.get("correct");
                                 translateWords();
                             } catch (NullPointerException e) {
@@ -150,8 +174,20 @@ public class ExerciseActivity extends AppCompatActivity {
                                 finish();
                             }
                         } else {
-                            displayToast("Exercise data not found, please restart the app");
-                            finish();
+                            db.collection("Exercises").count().get(AggregateSource.SERVER).addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful()) {
+                                    if (task1.getResult().getCount() < score + 1) {
+                                        displayToast("Congratulations, you have finished all the exercises for that language !");
+                                        finish();
+                                    } else {
+                                        displayToast("Exercise data not found, please restart the app");
+                                        finish();
+                                    }
+                                } else {
+                                    displayToast("Exercise data not found for unknown reasons, please restart the app");
+                                    finish();
+                                }
+                            });
                         }
                     } else {
                         displayToast("Online database could not be accessed, please retry later");
@@ -178,7 +214,7 @@ public class ExerciseActivity extends AppCompatActivity {
                             answers.get(i).setText(word);
                         }
                     } catch (org.json.JSONException e) {
-                        displayToast("Could not read received database data");
+                        displayToast("Could not read received translation data");
                         finish();
                     }
                 }
@@ -186,7 +222,7 @@ public class ExerciseActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(String errorMessage) {
                     for(Button answer: answers) {
-                        displayToast("The app did not receive the database data");
+                        displayToast("The app did not receive the translation data");
                         finish();
                     }
                 }

@@ -60,7 +60,6 @@
         android:minHeight="50dp"
         android:padding="15dp"
         android:textSize="@dimen/answer_font_size"
-        android:text="qsdqsdqs"
         app:layout_constraintTop_toBottomOf="@id/questionWord">
 
     </Button>
@@ -75,7 +74,6 @@
         android:minHeight="50dp"
         android:padding="15dp"
         android:textSize="@dimen/answer_font_size"
-        android:text="qsdqsdqs"
         app:layout_constraintTop_toBottomOf="@id/answerOne" />
 
     <Button
@@ -88,7 +86,6 @@
         android:minHeight="50dp"
         android:padding="15dp"
         android:textSize="@dimen/answer_font_size"
-        android:text="qsdqsdqs"
         app:layout_constraintTop_toBottomOf="@id/answerTwo" />
 
     <Button
@@ -101,7 +98,6 @@
         android:minHeight="50dp"
         android:padding="15dp"
         android:textSize="@dimen/answer_font_size"
-        android:text="qsdqsdqs"
         app:layout_constraintTop_toBottomOf="@id/answerThree" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
