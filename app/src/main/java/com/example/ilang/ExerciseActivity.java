@@ -1,22 +1,16 @@
 package com.example.ilang;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ilang.api.TranslationClient;
 import com.example.ilang.utils.NetworkUtils;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.AggregateQuerySnapshot;
 import com.google.firebase.firestore.AggregateSource;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,10 +18,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -69,6 +61,7 @@ public class ExerciseActivity extends AppCompatActivity {
             for(Button button: answers) {
                 button.setOnClickListener(v -> {
                     if (answers.indexOf(button) == words.indexOf(correctWord)) {
+                        for(Button answer: answers) answer.setText("");
                         displayToast("This is the right answer !");
                         score++;
                         Map<String, Object> newScoreData = new HashMap<>();
@@ -92,30 +85,6 @@ public class ExerciseActivity extends AppCompatActivity {
             backButton.setOnClickListener(v -> {
                 finish();
             });
-
-            /*View.OnClickListener listener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int id = v.getId();
-
-                    for (Button button: answers) {
-                        if (button.getId() == id && answers.indexOf(button) == words.indexOf(correctWord)) {
-                            displayToast("This is the right answer !");
-                            score++;
-                            Map<String, Object> newScoreData = new HashMap<>();
-                            newScoreData.put(languageCode, score);
-                            db.collection("Users").document(mAuth.getCurrentUser().getUid())
-                                    .update(newScoreData);
-                            getUserScore();
-                            return;
-                        }
-                        if (button.getId() == id && answers.indexOf(button) != words.indexOf(correctWord)) {
-                            displayToast("Wrong answer !");
-                            finish();
-                        }
-                    }
-                }
-            };*/
         }
     }
 

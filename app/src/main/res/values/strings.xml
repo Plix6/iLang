@@ -1,5 +1,24 @@
 <resources>
+    <!-- General -->
     <string name="app_name">iLang</string>
     <string name="placeholder_text">This is just some placeholder text that will be replaced...</string>
+
+    <!-- login and registration -->
+
+    <string name="welcome_text">Welcome to iLang</string>
+    <string name="email_hint">Enter your email</string>
+    <string name="password_hint">Enter your password</string>
+    <string name="password_confirmation_hint">Re-enter your password</string>
+    <string name="login_button_text">Log in</string>
+    <string name="register_button_text">Register</string>
+    <string name="login_redirect_register">Don\'t have an account ?</string>
+    <string name="register_redirect_login">Already have an account ?</string>
+
+    <!-- main -->
+    <string name="language_selection_text">Select a language by scrolling and clicking</string>
+    <string name="exercise_start_button">Start</string>
+
+    <!-- exercises -->
     <string name="question_prompt">Find the equivalent to this word : </string>
+
 </resources>

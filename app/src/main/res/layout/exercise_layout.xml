@@ -12,6 +12,7 @@
         android:layout_margin="10dp"
         android:text=""
         android:drawableTop="@drawable/back_button"
+        android:background="@drawable/round_corner_primary"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -25,7 +26,7 @@
         android:gravity="start"
         android:background="@drawable/round_corner_secondary"
         android:padding="10dp"
-        android:text="@string/placeholder_text"
+        android:text=""
         android:textSize="@dimen/exercise_user_data_font_size"/>
 
     <TextView
